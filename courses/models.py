@@ -97,7 +97,7 @@ class Group(models.Model):
         verbose_name='Максимальное количество студентов',
     )
 
-    student_count = models.PositiveIntegerField(
+    student_counts = models.PositiveIntegerField(
         default=0,
         verbose_name='Количество студентов',
     )

@@ -14,7 +14,7 @@ def post_save_subscription(sender, instance: Subscription, created, **kwargs):
     """
     if created:
         course = instance.course
-        groups = course.grops.order_by('student_count')
+        groups = course.groups.order_by('student_count')
         for group in groups:
             if group.student_count < group.max_students:
                 group.student_count += 1
