@@ -6,8 +6,11 @@ from django.conf import settings
 class Course(models.Model):
     """Модель продукта - курса."""
 
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-                             )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=1
+        )
     author = models.CharField(
         max_length=250,
         verbose_name='Автор',
@@ -60,6 +63,7 @@ class Lesson(models.Model):
         related_name='lessons',
         on_delete=models.CASCADE,
         verbose_name='Курс',
+        default=1
     )
 
     class Meta:
@@ -76,7 +80,8 @@ class Group(models.Model):
 
     title = models.CharField(
         max_length=250,
-        verbose_name='Название'
+        verbose_name='Название',
+        default='Default'
     )
 
     course = models.ForeignKey(
@@ -84,6 +89,7 @@ class Group(models.Model):
         related_name='groups',
         on_delete=models.CASCADE,
         verbose_name='Курс',
+        default=1
     )
 
     max_students = models.PositiveIntegerField(
@@ -116,7 +122,8 @@ class Subscription(models.Model):
         Course,
         on_delete=models.CASCADE,
         verbose_name='Курс',
-        related_name='user_course_subscriptions'
+        related_name='user_course_subscriptions',
+        default=1,
     )
 
     start_date = models.DateTimeField(

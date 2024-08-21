@@ -1,7 +1,10 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from courses.models import Course
 from django.conf import settings
+
 
 class CustomUser(AbstractUser):
     """Кастомная модель пользователя - студента."""
@@ -31,7 +34,7 @@ class CustomUser(AbstractUser):
 class Balance(models.Model):
     """Модель баланса пользователя."""
 
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, default=1)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     class Meta:
@@ -45,10 +48,10 @@ class Balance(models.Model):
 
 class Subscription(models.Model):
     """Модель подписки пользователя на курс."""
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_subscriptions')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_user_subscriptions')
-    start_date = models.DateField()
-    end_date = models.DateField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='user_subscriptions', default=1)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_user_subscriptions', default=1)
+    start_date = models.DateField(default=datetime.now)
+    end_date = models.DateField(default=datetime.now() + timedelta(days=30))
 
     class Meta:
         verbose_name = 'Подписка'

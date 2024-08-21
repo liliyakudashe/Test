@@ -45,6 +45,7 @@
 from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from rest_framework.routers import DefaultRouter
+from .views.course_view import course_list
 
 from api.v1.views.course_view import CourseViewSet, GroupViewSet, LessonViewSet
 from api.v1.views.user_view import UserViewSet
@@ -56,9 +57,10 @@ v1_router.register(r'courses/(?P<course_id>\d+)/lessons', LessonViewSet, basenam
 v1_router.register(r'courses/(?P<course_id>\d+)/groups', GroupViewSet, basename='course-groups')
 
 urlpatterns = [
-    path('api/v1/', include(v1_router.urls)),  # Ensure proper nesting
+    path('api/v1/', include('api.v1.urls')),  # Ensure proper nesting
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
+    path('api/v1/views/course_view/', course_list, name='course_list')
 ]
 
 urlpatterns += [

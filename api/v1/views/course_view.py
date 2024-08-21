@@ -2,12 +2,17 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.shortcuts import render
 
 from api.v1.permissions import IsStudentOrIsAdmin, ReadOnlyOrIsAdmin
 from api.v1.serializers.course_serializer import LessonSerializer, CreateLessonSerializer, GroupSerializer, \
     CreateGroupSerializer, CourseSerializer, CreateCourseSerializer
 from courses.models import Course
 
+
+def course_list(request):
+    courses = Course.objects.all()
+    return render(request, 'courses/course_list.html', {'courses': courses})
 
 class LessonViewSet(viewsets.ModelViewSet):
     """Уроки."""
